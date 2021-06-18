@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	<div id="app1">
+		<ul>
+			<Item/>
+		</ul>
+		<h3>{{message}}</h3>
+	</div>
+	<template id="itemTemplate">
+		<section style="padding: 8px 16px; background-color: #eeeeee">
+			<label style="color: #42b983">{{message}}</label>
+			<item-sub/>
+		</section>
+	</template>
+	</body>
+	<script src="js/vue.js"></script>
+	<script>
+		// 1、创建一个构造器
+		var ItemSub = Vue.extend({
+			template: '<span style="display: inline-block; width: 10px; height: 10px; border-radius: 5px; background-color: #f0ad4e"/>',
+		});
+		// 2、注册一个组件，该组件是全局的，可以在任意vue实例中使用，若要注册成局部变量，可以移入new Vue中
+		Vue.component('Item', {
+			template: '#itemTemplate',
+			components: {
+				'item-sub': ItemSub
+			},
+			data: function (){
+				return {message: 'this is a message'}
+			}
+		});
+		// 注册的组件可以在实例范围内使用
+		new Vue({
+			el: '#app1',
+		});
+	</script>
+
+</html>

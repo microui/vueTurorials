@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	<div id="app1">
+		<div>
+			<label>搜索</label>
+			<input v-model="searchValue"/>
+		</div>
+		<component-sub :column="column" :data="data" :search-value="searchValue"></component-sub>
+	</div>
+	<template id="componentSub">
+		<table>
+			<thead>
+				<tr>
+					<th v-for="col in column">{{col}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="record in data | filterBy searchValue">
+					<td v-for="col in column">{{record[col]}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</template>
+	</body>
+	<script src="js/vue.js"></script>
+	<script>
+		new Vue({
+			el: '#app1',
+			data: {
+				searchValue: '',
+				column: ['name', 'age', 'sex'],
+				data: [{
+					name: 'Jack',
+					age: 30,
+					sex: 'Male'
+				}, {
+					name: 'Bill',
+					age: 26,
+					sex: 'Male'
+				}, {
+					name: 'Tracy',
+					age: 22,
+					sex: 'Female'
+				}, {
+					name: 'Chris',
+					age: 36,
+					sex: 'Male'
+				}]
+			},
+			components: {
+				'component-sub': {
+					template: '#componentSub',
+					props: {
+						column: Array,
+						data: Array,
+						searchValue: String,
+					}
+				}
+			}
+		});
+	</script>
+
+</html>

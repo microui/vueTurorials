@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="fonts/iconfont.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			<modal-dialog v-bind:show="display">
+				<div slot="header">
+					<h3>标题信息</h3>
+				</div>
+				<div slot="body">
+					<p>hello</p>
+					<p>hello</p>
+					<p>hello</p>
+				</div>
+				<div slot="footer">
+					<h6>footer信息</h6>
+				</div>
+			</modal-dialog>
+			<button style="background-color: #f0ad4e" @click="toggleVisible">TEST1</button>
+			<button style="background-color: #BCBCBC">TEST2</button>
+		</div>
+
+		<template id="dialog-template">
+			<div style="width: 50%; height: 300px; margin: 0 auto; background-color: #f7f8f9; border: 1px solid #e8e8e8">
+				<slot name="header"></slot>
+				<slot name="body"></slot>
+				<slot name="footer"></slot>
+			</div>
+		</template>
+
+		<script src="js/vue.js"></script>
+		<script>
+			Vue.component('modal-dialog', {
+				template: '#dialog-template',
+			})
+
+			new Vue({
+				el: '#app',
+				data: {
+					display: false
+				},
+				methods: {
+					toggleVisible: function (){
+						this.display = !this.display;
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

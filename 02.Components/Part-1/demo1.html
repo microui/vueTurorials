@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	<div id="app1"><label>app1</label><temp-h></temp-h></div>
+	<div id="app2"><label>app2</label><temp-h></temp-h></div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script>
+		// 1、创建一个构造器
+		var tempH = Vue.extend({
+			template: '<h1>444</h1>',
+		});
+		// 2、注册一个组件，该组件是全局的，可以在任意vue实例中使用，若要注册成局部变量，可以移入new Vue中
+		// Vue.component('temp-h', tempH);
+		// 注册的组件可以在实例范围内使用
+		new Vue({
+			el: '#app1',
+			components: {'temp-h': tempH}
+		});
+		new Vue({
+			el: '#app2'
+		});
+	</script>
+
+</html>

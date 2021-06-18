@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="styles/demo.css"/>
+</head>
+
+<body>
+<div id="app">
+    <parent-component/>
+</div>
+<script type="text/x-template" id="myComponent"><p>8888</p></script>
+<script type="text/x-template" id="mySubComponent"><p>sub</p></script>
+</div>
+</body>
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        components: {
+            'parent-component': {
+                components: {
+                    'children-component': {
+                        template: '#mySubComponent',
+                    }
+                },
+                template: '#myComponent',
+            }
+        }
+    });
+</script>
+
+</html>

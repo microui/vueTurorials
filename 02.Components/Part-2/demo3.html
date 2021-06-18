@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="fonts/iconfont.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			<h3>{{message}}</h3>
+			<child-component></child-component>
+		</div>
+		<template id="childComponent">
+			<input v-model="subMsg" />
+			<button @click="handleParent">发送</button>
+		</template>
+		<script src="js/vue.js"></script>
+		<script>
+			Vue.component('child-component', {
+				template: '#childComponent',
+				data: function (){
+					return {
+						subMsg: ''
+					}
+				},
+				methods: {
+					handleParent: function (){
+						// this.$parent.pushMsg(this.subMsg);
+						this.$dispatch('pushMsg', this.subMsg);
+					}
+				}
+			})
+			const vm = new Vue({
+				el: '#app',
+				data: {
+					message: []
+				},
+				events: {
+					pushMsg: function (value){
+						this.message.push(value);
+					}
+				},
+				// methods: {
+				// 	pushMsg: function (value){
+				// 		this.message.push(value);
+				// 	}
+				// }
+			})
+		</script>
+	</body>
+
+</html>

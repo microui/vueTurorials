@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="fonts/iconfont.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			<input v-model="message" />
+			<button @click="handlebroadcast">广播</button>
+			<child-component></child-component>
+		</div>
+		<template id="childComponent">
+			<ul v-for="item in message">
+				<li>{{item}}</li>
+			</ul>
+		</template>
+		<script src="js/vue.js"></script>
+		<script>
+			Vue.component('child-component', {
+				template: '#childComponent',
+				data: function (){
+					return {
+						message: []
+					}
+				},
+				events: {
+					handleMessage: function (msg){
+						this.message.push(msg);
+					}
+				}
+			})
+			const vm = new Vue({
+				el: '#app',
+				data: {
+					message: []
+				},
+				methods: {
+					handlebroadcast: function (){
+						this.$broadcast('handleMessage', this.message)
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

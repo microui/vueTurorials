@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="fonts/iconfont.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			<parent-component></parent-component>
+		</div>
+
+		<template id="parentComponent">
+			<label>这是父级</label>
+			<child-component-one v-ref:c1></child-component-one>
+			<child-component-two v-ref:c2></child-component-two>
+			<button @click="getChildren">Get Children</button>
+		</template>
+		<template id="childComponentOne">
+			<h3 style="color: #f0ad4e">This is one</h3>
+			<button @click="getParent">Get Parent</button>
+		</template>
+		<template id="childComponentTwo">
+			<h3 style="color: #42b983">This is one</h3>
+		</template>
+		<script src="js/vue.js"></script>
+		<script>
+			const vm = new Vue({
+				el: '#app',
+				components: {
+					'parent-component': {
+						template: '#parentComponent',
+						components: {
+							'child-component-one': {
+								template: '#childComponentOne',
+								data: function (){
+									return {
+										msg: 'Apple'
+									}
+								},
+								methods: {
+									getParent: function (){
+										console.log(this.$parent.msg);
+									}
+								}
+							},
+							'child-component-two': {
+								template: '#childComponentTwo',
+								data: function (){
+									return {
+										msg: 'Egg'
+									}
+								}
+							}
+						},
+						methods: {
+							getChildren: function (){
+								console.log(this.$children);
+								console.log(this.$refs.c1.msg);
+								for(let i=0; i< this.$children.length; i++){
+									alert(this.$children[i].msg);
+								}
+							}
+						},
+						data: function (){
+							return {
+								msg: 'Duck'
+							}
+						}
+					}
+				},
+			})
+		</script>
+	</body>
+
+</html>

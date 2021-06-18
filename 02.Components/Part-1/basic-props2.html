@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="styles/demo.css" />
+	</head>
+
+	<body>
+	<template id="myComponent">
+		<table>
+			<tr>
+				<th colspan="3">
+					子组件数据
+				</th>
+			</tr>
+			<tr>
+				<td>name</td><td>{{name}}</td><td><input v-model="name"/></td>
+			</tr>
+			<tr>
+				<td>age</td><td>{{age}}</td><td><input v-model="age"/></td>
+			</tr>
+		</table>
+	</template>
+	<div id="app">
+		<table>
+			<tr>
+				<th colspan="3">
+					父组件数据
+				</th>
+			</tr>
+			<tr>
+				<td>name</td><td>{{name}}</td><td><input v-model="name"/></td>
+			</tr>
+			<tr>
+				<td>age</td><td>{{age}}</td><td><input v-model="age"/></td>
+			</tr>
+		</table>
+		<!--.sync：props值的单项传递变为双向传递-->
+		<!--<my-component :name.sync="name" :age.sync="age"></my-component>-->
+		<!--.once：props值的单次绑定-->
+		<my-component :name.once="name" :age.once="age"></my-component>
+	</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+			  	name: 'Lily',
+				age: 54
+			},
+			components: {
+			    'my-component': {
+			        template: '#myComponent',
+					props: ['name', 'age']
+				}
+			}
+		})
+	</script>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	<div id="app1">
+		<p>{{title}}</p>
+		<component-sub></component-sub>
+	</div>
+	<template id="componentSub">
+		<div v-show="display">
+			<h3>{{title}}</h3>
+		</div>
+	</template>
+	</body>
+	<script src="js/vue.js"></script>
+	<script>
+		new Vue({
+			el: '#app1',
+			data: {
+				title: '父级title',
+				display: false
+			},
+			components: {
+				'component-sub': {
+					template: '#componentSub',
+					data: function(){
+						return {
+							title: '组件title',
+							display: true
+						}
+					}
+				}
+			}
+		});
+	</script>
+
+</html>

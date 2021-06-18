@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	<div id="app1">
+		<div>
+			<label>{{`父组件：${name}`}}</label>
+			<input v-model="name"/>
+		</div>
+		<component-sub v-bind:my-name="name"></component-sub>
+	</div>
+	<template id="componentSub">
+		<div style="display: flex; flex-direction: row; justify-content: space-between">
+			<label>{{`子组件：${myName}`}}</label>
+			<input v-model="myName"/>
+		</div>
+	</template>
+	</body>
+	<script src="js/vue.js"></script>
+	<script>
+		new Vue({
+			el: '#app1',
+			data: {
+				name: 'lily',
+			},
+			components: {
+				'component-sub': {
+					template: '#componentSub',
+					props: ['myName']
+				}
+			}
+		});
+	</script>
+
+</html>

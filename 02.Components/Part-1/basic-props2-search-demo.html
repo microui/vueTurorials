@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="styles/demo.css" />
+	</head>
+
+	<body>
+	<div id="app">
+		search<input @change="change"/>
+		<table>
+			<tr v-for="item in searchData">
+				<td>{{item.name}}</td><td>{{item.age}}</td><td>{{item.sex}}</td>
+			</tr>
+		</table>
+	</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+			    searchData: [
+                    {name: 'Lucy', age: 12, sex: 'Male'},
+                    {name: 'Jack', age: 33, sex: 'Female'},
+                    {name: 'Michel', age: 17, sex: 'Female'},
+                    {name: 'Jon', age: 55, sex: 'Male'},
+                ],
+			  	people: [
+					{name: 'Lucy', age: 12, sex: 'Male'},
+					{name: 'Jack', age: 33, sex: 'Female'},
+					{name: 'Michel', age: 17, sex: 'Female'},
+					{name: 'Jon', age: 55, sex: 'Male'},
+				]
+			},
+			methods: {
+			    handleData: function(origin){
+			        try {
+						const toStr = JSON.stringify(origin);
+						return JSON.parse(toStr);
+                    } catch (e) {
+						return
+                    }
+				},
+			    change: function (e) {
+			        const value = e.target.value;
+			        if(value){
+			            console.log('ttt', this.people);
+                        const newData = this.people.filter(item=>item.name.includes(value) || item.age === value);
+                        // 赋值要经过转化，vue监控的数据会自动加上一些监听信息，不能遍历，所以要如下方式转换一次
+                        this.searchData = this.handleData(newData) || [];
+                        console.log(this.searchData)
+					} else
+					this.searchData = this.people;
+                }
+			}
+		})
+	</script>
+
+</html>
