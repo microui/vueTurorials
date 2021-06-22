@@ -6,12 +6,39 @@
     <link rel="stylesheet" href="src/assets/app.css"/>
   </head>
   <body>
-    <app>
-      <h3>333333</h3>
-      <h4>555555</h4>
-      <h6>标签6</h6>
-      <h5>标签5</h5>
-    </app>
+  <input id="inputEle" />
+  <div style="width: 300px; height: 200px; border: 1px solid gray" id="result">
+
+  </div>
+    <script>
+      window.onload = function (){
+        const inputEle = document.getElementById('inputEle');
+        const resultEle = document.getElementById('result');
+        const throttle = function (fn, delay){
+          let last;
+          let timer = null;
+          return function (value){
+            if(last && + new Date() < last + delay){
+              clearTimeout(timer);
+              setTimeout(function (){
+                fn(value);
+                last = + new Date();
+              }, delay);
+            } else {
+              fn(value);
+              last = + new Date();
+            }
+          }
+        };
+        const changeValue = function (value){
+          resultEle.innerText = value;
+        }
+        const delayChange = throttle(changeValue, 2000);
+        inputEle.addEventListener("input", function (e){
+          delayChange(e.target.value)
+        })
+      }
+    </script>
     <script src="dist/build.js"></script>
   </body>
 </html>
