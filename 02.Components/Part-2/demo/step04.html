@@ -61,7 +61,13 @@
 				<button @click="openNewItemDialog('Create New Item')">Create</button>
 			</div>
 
-			<modal-dialog :mode="mode" :title="title" :item="item" :fields="columns" v-on:create-item="createItem" v-on:update-item="updateItem">
+			<modal-dialog
+					:mode="mode"
+					:title="title"
+					:item="item"
+					:fields="columns"
+					v-on:create-item="createItem"
+					v-on:update-item="updateItem">
 			</modal-dialog>
 
 		</template>

@@ -40,7 +40,10 @@
 				</thead>
 				<tbody>
 					<tr v-for="(index, per) in dataList | filterBy searchKey">
-						<td v-for="col in columns">{{per[col.name]}}</td>
+						<td v-for="col in columns">
+							<span v-if="col.isKey"><a href="javascript: void(0)" v-on:click="toControlModal({flag: true, mode: 2, title: '编辑', item: per})">{{per[col.name]}}</a></span>
+							<span v-else>{{per[col.name]}}</span>
+						</td>
 						<td class="text-center">
 							<button class="btn-danger" v-on:click="deleteItem(index)">delete</button>
 						</td>
@@ -50,10 +53,11 @@
 			<button v-on:click="toControlModal({flag: true, mode: 1, title: '新增', item: {}})">Create</button>
 			<modal-dialog
 				v-bind:title="title"
-				v-bind:v-mode="mode"
+				v-bind:mode="mode"
 				v-bind:fields="columns"
 				v-bind:item="item"
 				v-on:create-item="createItem"
+				v-on:update-item="updateItem"
 			>
 			</modal-dialog>
 		</template>
@@ -68,7 +72,7 @@
 							<div v-for="field in fields" class="form-group">
 								<label>{{ field.name }}</label>
 								<select v-if="field.dataSource" v-model="item[field.name]">
-									<option v-for="opt in field.dataSource" value="opt">{{opt}}</option>
+									<option v-for="opt in field.dataSource" v-bind:value="opt">{{opt}}</option>
 								</select>
 								<input v-else type="text" v-model="item[field.name]"/>
 							</div>
@@ -103,7 +107,6 @@
 						data.splice(index, 1);
 					},
 					toControlModal: function ({flag, mode, title, item}){
-						console.log('flag', flag, 'mode', mode, 'title', title, 'item', item);
 						this.$broadcast('handleModal', flag);
 						this.mode = mode;
 						this.title = title;
@@ -111,6 +114,11 @@
 					},
 					createItem: function (){
 						this.dataList.push(this.item);
+						this.$broadcast('handleModal', false);
+					},
+					updateItem: function (){
+						const index = this.dataList.findIndex(record=>record.id === this.item.id);
+						this.dataList.splice(index, 1, this.item);
 						this.$broadcast('handleModal', false);
 					}
 				},
@@ -135,13 +143,16 @@
 								this.show = false
 							},
 							save: function() {
-								this.$dispatch('create-item')
+								if(this.mode === 1){
+									this.$dispatch('create-item')
+								} else if(this.mode === 2){
+									this.$dispatch('update-item')
+								}
 							}
 						},
 						events: {
-							handleModal: function (flag){
-								console.log('flag', flag);
-								this.show = flag
+							handleModal: function (show){
+								this.show = show
 							},
 						}
 					}
@@ -153,7 +164,8 @@
 				data: {
 					searchQuery: '',
 					columns: [{
-						name: 'name'
+						name: 'name',
+						isKey: true,
 					}, {
 						name: 'age'
 					}, {
@@ -163,19 +175,23 @@
 					people: [{
 						name: 'Jack',
 						age: 30,
-						sex: 'Male'
+						sex: 'Male',
+						id: 1
 					}, {
 						name: 'Bill',
 						age: 26,
-						sex: 'Male'
+						sex: 'Male',
+						id: 2
 					}, {
 						name: 'Tracy',
 						age: 22,
-						sex: 'Female'
+						sex: 'Female',
+						id: 3
 					}, {
 						name: 'Chris',
 						age: 36,
-						sex: 'Male'
+						sex: 'Male',
+						id: 4
 					}]
 				}
 			})
